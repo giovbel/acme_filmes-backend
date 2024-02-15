@@ -1,15 +1,22 @@
+/**************************************************************
+ * Objetivo: Arquivo para realizar as requisições de filmes
+ * Data: 30/01/2024
+ * Autora: Giovanna
+ * Versão: 1.0
+ ************************************************************/
 
-/* 
-    npm install express --save
-     é a biblioteca que vai gerenciar as requisições da 
- 
-    npm install body-parser --save
-     é a biblioteca que vai manipular dados do corpo da requisição (POST, PUT)
-
-    npm install cors --save
-     é a biblioteca responsável pelas permissões (HEADER) de acesso das requisições
-  
-*/ 
+/**
+ * Para realizar a integração com o Banco De Dados devemos utilizar uma das seguintes bibliotecas:
+ *      - SEQUILIZE  - É a biblioteca mais antiga
+ *      - PRISMA ORM - É a biblioteca mais atual (utilizaremos no projeto)
+ *      - FASTFY ORM - É a biblioteca mais atual
+ * 
+ *      Para a instalação do PRISMA ORM:
+ *          npm install prisma --save  - responsável pela conexão com o banco
+ *          npm install @prisma/client --save  - responsável por executar scripts SQL no banco
+ *          npx prisma init - responsável por iniciar o prisma no projeto
+ * 
+ * *************/
 
 //import das bibliotecas para criar a API
 const express = require('express');
@@ -39,26 +46,49 @@ app.use((request, response, next) =>{
     next();
 })
 
-//EndPoints: Lista todos os filmes
+//********************************import dos arquivos de controller do projeto***************************************
+
+const controllerFilmes = require('./controller/controller_filme.js')
+
+//EndPoints: Versão 1.0 que retorna os arquivos de filmes
+//Período de utilização 01/2024 até 02/2024
 app.get('/v1/acmeFilmes/filmes', cors(), async function(request, response, next){
-    let controleAcmeFilmes = require('./controller/functions.js')
-    let listaFilmes = controleAcmeFilmes.getListaDeFilmes();
+
+    let controllerFilmes = require('./controller/functions.js')
+    
+    let listaFilmes = controllerFilmes.getListaDeFilmes();
     
     if(listaFilmes){
      response.json(listaFilmes);
      response.status(200);
     }else{
-        response.status();
+        response.status(404);
     }
     next()
+})
+
+//Endpoints: Versão 2.0 - retorna os dados de filme do banco de dados
+app.get('/v2/acmeFilmes/filmes', cors(), async function(request,response){
+
+    //chama a função da controller para retornar todos os filmes
+    let dadosFilmes = await controllerFilmes.getListarFilmes();
+
+    //validação para verificar se existem dados a serem retornados
+    if(dadosFilmes){
+        response.json(dadosFilmes)
+        response.status(200)
+    } else {
+        response.json({message: 'Nenhum registro encontrado'})
+        response.status(404)
+    }
 })
 
 //EndPoints: Lista dados dos Filmes pelo id
 app.get('/v1/acmeFilmes/filme/:idFilme', cors(), async function(request, response, next){
     
     let idFilme = request.params.idFilme;
-    let controleAcmeFilmes = require('./controller/functions.js')
-    let filmeById = controleAcmeFilmes.getDadosFilme(idFilme);
+    let controllerFilmes = require('./controller/functions.js')
+    let filmeById = controllerFilmes.getDadosFilme(idFilme);
     
     if(filmeById){
      response.json(filmeById);
@@ -68,6 +98,7 @@ app.get('/v1/acmeFilmes/filme/:idFilme', cors(), async function(request, respons
     }
     next()
 })
+
 
 app.listen('8080', function(){
     console.log('API funcionando!!!')
