@@ -51,9 +51,36 @@ else
     return false
 }
 
+//função dar um filme com base no nome?
+
+const getDadosFilmeNome = function (){
+    let filmes = acmeFilmes.filmes.filmes;
+    let idFilme = parseInt(nome);
+    let jsonFilmes = {}
+    let status = false;
+
+    filmes.forEach(function (filmes){
+
+        if(idFilme == filmes.id){
+           jsonFilmes.id = filmes.id
+           jsonFilmes.nome = filmes.nome
+           jsonFilmes.sinopse = filmes.sinopse
+           jsonFilmes.duracao = filmes.duracao
+           jsonFilmes.data_lancamento = filmes.data_lancamento
+           jsonFilmes.data_relancamento = filmes.data_relancamento
+           jsonFilmes.foto_capa = filmes.foto_capa
+           jsonFilmes.valor_unitario = filmes.valor_unitario
+
+            status = true
+        }
+    })
+}
+
+console.log(getDadosFilmeNome("Alice No País Das Maravilhas"))
 console.log(getDadosFilme("2"))
 
 module.exports = {
     getListaDeFilmes,
-    getDadosFilme
+    getDadosFilme,
+    getDadosFilmeNome
 }
