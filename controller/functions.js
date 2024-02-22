@@ -76,7 +76,7 @@ const getDadosFilmeNome = function (nome){
     })
 }
 
-console.log(getDadosFilmeNome("Alice No País Das Maravilhas"))
+console.log(getDadosFilmeNome("Frankewennie"))
 // console.log(getDadosFilme("2"))
 
 module.exports = {

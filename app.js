@@ -70,35 +70,47 @@ app.get('/v1/acmeFilmes/filmes', cors(), async function(request, response, next)
 //Endpoints: Versão 2.0 - retorna os dados de filme do banco de dados
 app.get('/v2/acmeFilmes/filmes', cors(), async function(request,response){
 
-    //chama a função da controller para retornar todos os filmes
-    let dadosFilmes = await controllerFilmes.getListarFilmes();
+    let dadosFilme = await controllerFilmes.getListarFilmes(); 
 
-    //validação para verificar se existem dados a serem retornados
-    if(dadosFilmes){
-        response.json(dadosFilmes)
-        response.status(200)
-    } else {
-        response.json({message: 'Nenhum registro encontrado'})
-        response.status(404)
-    }
+    response.status(dadosFilme.status_code) 
+    response.json(dadosFilme)
 })
 
 //EndPoints: Lista dados dos Filmes pelo id
-app.get('/v1/acmeFilmes/filme/:idFilme', cors(), async function(request, response, next){
+// app.get('/v1/acmeFilmes/filme/:idFilme', cors(), async function(request, response, next){
     
-    let idFilme = request.params.idFilme;
-    let controllerFilmes = require('./controller/functions.js')
-    let filmeById = controllerFilmes.getDadosFilme(idFilme);
+//     let idFilme = request.params.idFilme;
+//     let controllerFilmes = require('./controller/functions.js')
+//     let filmeById = controllerFilmes.getDadosFilme(idFilme);
     
-    if(filmeById){
-     response.json(filmeById);
-     response.status(200);
-    }else{
-        response.status();
-    }
-    next()
+//     if(filmeById){
+//      response.json(filmeById);
+//      response.status(200);
+//     }else{
+//         response.status();
+//     }
+//     next()
+// })
+
+//EndPoints: Lista dados dos Filmes pelo nome
+app.get('/v2/acmeFilmes/filmes/filtro', cors(), async function(request, response, next){
+    
+    let nomeFilme = request.query.nome; 
+    let dadosFilme = await controllerFilmes.getBuscarFilmeNome(nomeFilme); 
+
+    response.status(dadosFilme.status_code) 
+    response.json(dadosFilme)
 })
 
+//EndPoints: Retorna os dados filtrando pelo id
+app.get('/v2/acmeFilmes/filme/:id', cors(), async function(request, response, next){
+    
+    let idFilme = request.params.id; //receber o id do filme
+    let dadosFilme = await controllerFilmes.getBuscarFilme(idFilme); //encaminha o id para a controller buscar o filme
+
+    response.status(dadosFilme.status_code) //retorno
+    response.json(dadosFilme)
+})
 
 app.listen('8080', function(){
     console.log('API funcionando!!!')

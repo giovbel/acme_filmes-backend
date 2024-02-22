@@ -4,7 +4,6 @@
  * Data: 01/02/2024
  * Autora: Giovanna
  * Versão: 1.0
- * 
  * *********************************************************************************/
 
 //import da biblioteca do prisma client
@@ -46,23 +45,47 @@ const selectAllFilmes = async function() {
 }
 
 //função para buscar um filme do banco de dados pelo id
-const selectByIdFilme = async function() {
+const selectByIdFilme = async function(id) {
 
+  try{
+     //para buscar um filme pelo id
+  let sql = `select * from tbl_filme where id = ${id}`
+
+  //caminha o script sql para o banco de dados
+  let rsFilme = await prisma.$queryRawUnsafe(sql)
+
+  if(rsFilme.length > 0)
+    return rsFilme;
+  else
+    return rsFilme;
+    
+  } catch (error){
+    return false
+  }
+
+ 
 }
 
-//função para buscar um filme do banco de dados pelo nome
-const selectByNomeFilme = async function() {
-  let sql = `select * from tbl_filme where nome like ${nome}`
+//função para buscar um filme do banco de dados pelo nome 
+const selectByNomeFilme = async function(nome) {
 
-  //$queryRawUnsafe()
-  //$queryRaw('select * from tbl_filme where nome = '+ variavel)
+  let nomeFilme = nome.replaceAll('"','')
 
-  let rsFilmes = await prisma.$queryRawUnsafe(sql);
+  try{
+    //para buscar um filme pelo nome
+ let sql = `select * from tbl_filme where nome like "${nomeFilme}%"`
 
-  if(rsFilmes.length > 0)
-    return rsFilmes;
-  else
-    return false;
+//caminha o script sql para o banco de dados
+ let rsFilme = await prisma.$queryRawUnsafe(sql)
+
+ console.log(rsFilme)
+   return rsFilme;
+   
+ }  catch (error){
+  console.log(error)
+   return false
+ }
+
 }
 
 module.exports ={
