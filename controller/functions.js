@@ -53,23 +53,23 @@ else
 
 //função dar um filme com base no nome?
 
-const getDadosFilmeNome = function (){
+const getDadosFilmeNome = function (nome){
     let filmes = acmeFilmes.filmes.filmes;
-    let idFilme = parseInt(nome);
+    let nomeFilme = nome;
     let jsonFilmes = {}
     let status = false;
 
-    filmes.forEach(function (filmes){
+    filmes.forEach(function (filme){
 
-        if(idFilme == filmes.id){
-           jsonFilmes.id = filmes.id
-           jsonFilmes.nome = filmes.nome
-           jsonFilmes.sinopse = filmes.sinopse
-           jsonFilmes.duracao = filmes.duracao
-           jsonFilmes.data_lancamento = filmes.data_lancamento
-           jsonFilmes.data_relancamento = filmes.data_relancamento
-           jsonFilmes.foto_capa = filmes.foto_capa
-           jsonFilmes.valor_unitario = filmes.valor_unitario
+        if(nomeFilme == filme.nome){
+           jsonFilmes.id = filme.id
+           jsonFilmes.nome = filme.nome
+           jsonFilmes.sinopse = filme.sinopse
+           jsonFilmes.duracao = filme.duracao
+           jsonFilmes.data_lancamento = filme.data_lancamento
+           jsonFilmes.data_relancamento = filme.data_relancamento
+           jsonFilmes.foto_capa = filme.foto_capa
+           jsonFilmes.valor_unitario = filme.valor_unitario
 
             status = true
         }
@@ -77,7 +77,7 @@ const getDadosFilmeNome = function (){
 }
 
 console.log(getDadosFilmeNome("Alice No País Das Maravilhas"))
-console.log(getDadosFilme("2"))
+// console.log(getDadosFilme("2"))
 
 module.exports = {
     getListaDeFilmes,

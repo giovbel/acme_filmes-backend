@@ -52,7 +52,17 @@ const selectByIdFilme = async function() {
 
 //função para buscar um filme do banco de dados pelo nome
 const selectByNomeFilme = async function() {
+  let sql = `select * from tbl_filme where nome like ${nome}`
 
+  //$queryRawUnsafe()
+  //$queryRaw('select * from tbl_filme where nome = '+ variavel)
+
+  let rsFilmes = await prisma.$queryRawUnsafe(sql);
+
+  if(rsFilmes.length > 0)
+    return rsFilmes;
+  else
+    return false;
 }
 
 module.exports ={

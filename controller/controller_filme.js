@@ -47,13 +47,13 @@ const getListarFilmes = async function() {
 }
 
 //função para buscar um filme pelo nome ?
-const getBuscarFilme = async function() {
+const getBuscarFilme = async function(nome) {
 
     //cria um objeto JSON
     let filmesJSON = {};
 
     //chama a função do DAO que retorna os filmes do BD
-    let dadosFilmes = await filmesDAO.selectAllFilmes()
+    let dadosFilmes = await filmesDAO.selectByNomeFilme()
     
     //validação para verificar se o DAO retonou dados
     if(dadosFilmes){
