@@ -37,7 +37,7 @@ app.use((request, response, next) =>{
 
 
     //Permite especificar como a API, será requisitada (GET, POST, PUT e DELETE)
-    response.header('Access-Control-Allow-Methods', 'GET')
+    response.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE')
 
     //ativa as configurações de permissão no cors
     app.use(cors());
@@ -49,6 +49,11 @@ app.use((request, response, next) =>{
 //********************************import dos arquivos de controller do projeto***************************************
 
 const controllerFilmes = require('./controller/controller_filme.js')
+
+//********************************************************************************************************************
+
+//criando um objeto para controlar a chegada dos dados da requisição em formato json
+const bodyParserJSON = bodyParser.json()
 
 //EndPoints: Versão 1.0 que retorna os arquivos de filmes
 //Período de utilização 01/2024 até 02/2024
@@ -110,6 +115,18 @@ app.get('/v2/acmeFilmes/filme/:id', cors(), async function(request, response, ne
 
     response.status(dadosFilme.status_code) //retorno
     response.json(dadosFilme)
+})
+
+app.post('/v2/acmeFilmes/filme', cors(), bodyParserJSON, async function (request, response){
+
+    //recebe todos os dados encaminhados na requisição pelo body
+    let dadosBody = request.body;
+
+    //encaminha os dados para o controller enviar para o DAO
+    let resultDadosNovoFilme = await controllerFilmes.setInserirNovoFilme(dadosBody)
+
+    response.status(resultDadosNovoFilme.status_code)
+    response.json(resultDadosNovoFilme)
 })
 
 app.listen('8080', function(){
