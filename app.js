@@ -39,6 +39,8 @@ app.use((request, response, next) =>{
     //Permite especificar como a API, será requisitada (GET, POST, PUT e DELETE)
     response.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE')
 
+    request.header('Content-Type', 'application/json')
+
     //ativa as configurações de permissão no cors
     app.use(cors());
 

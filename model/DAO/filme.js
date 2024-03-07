@@ -15,16 +15,24 @@ const prisma = new PrismaClient();
 //função para inserir novo filme no banco de dados
 const insertFilme = async function(dadosFilme) {
 
+  let sql;
+
   try {
+
+    if(dadosFilme.data_relancamento != '' && 
+      dadosFilme.data_relancamento != null && 
+      dadosFilme.data_relancamento != undefined){
+
     
-  let sql = `insert into tbl_filme (nome, 
+    
+  sql = `insert into tbl_filme (nome, 
                                     sinopse,
                                     duracao,
                                     data_lancamento,
                                     data_relancamento,
                                     foto_capa,
                                     valor_unitario
-    ) values(
+                                  ) values(
                                     '${dadosFilme.nome}',
                                     '${dadosFilme.sinopse}',
                                     '${dadosFilme.duracao}',
@@ -33,6 +41,25 @@ const insertFilme = async function(dadosFilme) {
                                     '${dadosFilme.foto_capa}',
                                     '${dadosFilme.valor_unitario}'
     )`;
+
+    }else{
+              sql = `insert into tbl_filme (nome, 
+                                            sinopse,
+                                            duracao,
+                                            data_lancamento,
+                                            data_relancamento,
+                                            foto_capa,
+                                            valor_unitario
+                                    ) values(
+                                           '${dadosFilme.nome}',
+                                           '${dadosFilme.sinopse}',
+                                           '${dadosFilme.duracao}',
+                                           '${dadosFilme.data_lancamento}',
+                                           null,
+                                           '${dadosFilme.foto_capa}',
+                                           '${dadosFilme.valor_unitario}'
+)`;
+      }
 
     //$executeRawUnsafe() -> serve para executar scripts sem retorno de dados (insert, update e delete)
     //$queryRawUnsafe() -> serve para executar scripts com retorno de dados (select)
@@ -45,6 +72,7 @@ const insertFilme = async function(dadosFilme) {
       return false;
       
     }  catch (error) {
+      //console.log(error)
       return false;
     }
 }
@@ -110,7 +138,6 @@ const selectByNomeFilme = async function(nome) {
 //caminha o script sql para o banco de dados
  let rsFilme = await prisma.$queryRawUnsafe(sql)
 
- console.log(rsFilme)
    return rsFilme;
    
  }  catch (error){
@@ -120,11 +147,36 @@ const selectByNomeFilme = async function(nome) {
 
 }
 
+//função para o id inserido
+const selectLastInsertId = async function() {
+  try{
+    
+ let sql = `select cast(last_insert_id() as decimal) as id from tbl_filme limit 1`
+
+ let rsId = await prisma.$queryRawUnsafe(sql)
+
+ let idInsert
+
+ rsId.forEach(id => {
+  idInsert = id.id
+ });
+
+ if(rsId.length > 0)
+   return idInsert;
+ else
+   return false;
+   
+ } catch (error){
+   return false
+ }
+}
+
 module.exports ={
     insertFilme,
     updateFilme,
     deleteFilme,
     selectAllFilmes,
     selectByIdFilme,
-    selectByNomeFilme
+    selectByNomeFilme,
+    selectLastInsertId
 }
