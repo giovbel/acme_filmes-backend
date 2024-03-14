@@ -78,13 +78,37 @@ const insertFilme = async function(dadosFilme) {
 }
 
 //função para atualizar um filme no banco de dados
-const updateFilme = async function() {
+const updateFilme = async function(dadosAtualizados, id) {
 
+  let sql = `update tbl_filme set nome = '${dadosAtualizados.nome}', 
+                                  sinopse = ''${dadosAtualizados.sinopse}', 
+                                  duracao = '${dadosAtualizados.duracao}',
+                                  data_lancamento = '${dadosAtualizados.data_lancamento}',
+                                  data_relancamento =  '${dadosAtualizados.data_relancamento}',
+                                  foto_capa =  '${dadosAtualizados.foto_capa}',
+                                  valor_unitario =  '${dadosAtualizados.valor_unitario}
+                                  where id = ${id}'`
+                                  
+
+   let rsFilme = await prisma.$queryRawUnsafe(sql);
+
+    if(rsFilme)
+        return rsFilme;
+   else
+      return false;
 }
 
 //função para excluir um filme no banco de dados
-const deleteFilme = async function() {
+const deleteFilme = async function(id) {
+  
+  let sql = `delete from tbl_filme where id = ${id}`
 
+  let rsFilme = await prisma.$queryRawUnsafe(sql);
+
+  if(rsFilme)
+    return rsFilme;
+  else
+    return false;
 }
 
 //função para listar todos os filmes do banco de dados

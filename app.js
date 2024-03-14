@@ -121,14 +121,41 @@ app.get('/v2/acmeFilmes/filme/:id', cors(), async function(request, response, ne
 
 app.post('/v2/acmeFilmes/filme', cors(), bodyParserJSON, async function (request, response){
 
+    //recebe o content type (ele mostra o tipo de dados) da requisição
+    let contentType = request.header('content-type')
+
     //recebe todos os dados encaminhados na requisição pelo body
     let dadosBody = request.body;
 
     //encaminha os dados para o controller enviar para o DAO
-    let resultDadosNovoFilme = await controllerFilmes.setInserirNovoFilme(dadosBody)
+    let resultDadosNovoFilme = await controllerFilmes.setInserirNovoFilme(dadosBody, contentType)
 
     response.status(resultDadosNovoFilme.status_code)
     response.json(resultDadosNovoFilme)
+})
+
+app.delete('/v2/acmeFilmes/filme/:id', cors(), async function (request, response){
+
+    let idFilme = request.params.id;
+    let filmeDeletado = await controllerFilmes.setExcluirFilme(idFilme); 
+
+    console.log(filmeDeletado)
+
+    response.status(filmeDeletado.status_code) 
+    response.json(filmeDeletado)
+})
+
+app.put('/v2/acmeFilmes/filme/:id', cors(), bodyParserJSON, async function (request, response){
+
+    let idFilme = request.params.id;
+    let filmeDeletado = await controllerFilmes.setExcluirFilme(idFilme); 
+
+    let contentType = request.header('content-type')
+
+    console.log(filmeDeletado)
+
+    response.status(filmeDeletado.status_code) 
+    response.json(filmeDeletado)
 })
 
 app.listen('8080', function(){
