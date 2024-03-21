@@ -215,7 +215,7 @@ const getBuscarFilmeNome = async function (nome) {
 
         //encaminha para o DAO localizar o id do filme
         let dadosFilme = await filmesDAO.selectByNomeFilme(nomeFilme)
-
+ 
         //validação para verificar se existe dados de retorno
         if (dadosFilme) {
 
@@ -238,11 +238,15 @@ const getBuscarFilmeNome = async function (nome) {
 
 }
 
+
+
+
+
 module.exports = {
     setInserirNovoFilme,
     setAtualizarFilme,
     setExcluirFilme,
     getListarFilmes,
     getBuscarFilme,
-    getBuscarFilmeNome
+    getBuscarFilmeNome,
 }
