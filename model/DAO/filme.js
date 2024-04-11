@@ -114,7 +114,12 @@ const deleteFilme = async function(id) {
 //função para listar todos os filmes do banco de dados
 const selectAllFilmes = async function() {
 
-    let sql = 'select * from tbl_filme'
+    let sql = `select tbl_filme.nome as nome, tbl_filme.sinopse as sinopse, tbl_filme.duracao as duracao, tbl_filme.data_lancamento as data_lancamento, 
+    tbl_filme.data_relancamento as data_relancamento, tbl_filme.foto_capa as foto_capa, tbl_filme.valor_unitario as valor_unitario,
+    tbl_nacionalidade.gentilico as nacionalidade, tbl_classificacao.nome as classificacao, tbl_genero.nome as genero from tbl_filme 
+    join tbl_nacionalidade on tbl_filme.nacionalidade_id =  tbl_nacionalidade.id
+    join tbl_classificacao on tbl_filme.classificacao_id = tbl_classificacao.id
+    join tbl_genero on tbl_filme.genero_id = tbl_genero.id`
 
     //$queryRawUnsafe()
     //$queryRaw('select * from tbl_filme where nome = '+ variavel)
