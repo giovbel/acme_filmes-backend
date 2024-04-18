@@ -25,7 +25,7 @@ const insertFilme = async function(dadosFilme) {
 
     
     
-  sql = `insert into tbl_filme (nome, 
+  sql = `insert into tbl_filme (    nome, 
                                     sinopse,
                                     duracao,
                                     data_lancamento,
