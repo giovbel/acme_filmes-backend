@@ -30,11 +30,11 @@ const insertClassificacao = async (dadosClassificacao) => {
     console.log(sql)
         let resultado = await prisma.$executeRawUnsafe(sql)
 
-        if(resultado)
-        return true
-        else
-        return false
-
+        if(resultado) {
+            return true
+        } else {
+            return false
+        }
     } catch (error) {
         console.log(error)
         return false
@@ -54,11 +54,11 @@ const updateClassificacao = async (id, dadosAtualizados) => {
 
             let resultado = await prisma.$executeRawUnsafe(sql)
     
-            if(resultado)
+        if(resultado) {
             return true
-            else
+        } else {
             return false
-            
+        }
         } catch (error) {
             console.log(error)
             return false
