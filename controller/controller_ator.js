@@ -1,5 +1,5 @@
 /***********************************************************************************
- * Objetivo: Arquivo responsável pelas validações e consistências de dados de filme
+ * Objetivo: Arquivo responsável pelas validações e consistências de dados de atores
  * Data: 18/02/2024
  * Autora: Giovanna
  * Versão: 1.0
@@ -27,7 +27,7 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
     if (dadosAtor.nome == ""           || dadosAtor.nome == undefined           || dadosAtor.nome == null            || dadosAtor.nome.length > 80            ||
         dadosAtor.nome_artistico == "" || dadosAtor.nome_artistico == undefined || dadosAtor.nome_artistico == null  || dadosAtor.nome_artistico.length > 18  ||
         dadosAtor.data_nascimento == ""|| dadosAtor.data_nascimento == undefined|| dadosAtor.data_nascimento == null || dadosAtor.data_nascimento.length > 15 ||
-        dadosAtor.biografia == ""      || dadosAtor.biografia == undefined      || dadosAtor.biografia == null       || dadosAtor.nacionalidade.length == 0
+        dadosAtor.biografia == ""      || dadosAtor.biografia == undefined      || dadosAtor.biografia == null
     ) {
 
        return message.ERROR_REQUIRED_FIELDS //400
@@ -56,9 +56,11 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
             
             //encaminha os dados do filme para o DAO inserir no banco de dados
             let novoAtor = await atoresDAO.insertAtor(dadosAtor)
-            let idNovoAtor = await atoresDAO.selectLastInsertId()
+            let idAtorNovo = await atoresDAO.selectLastInsertId()
 
             //validação para verificar se o DAO inseriu os dados do BD
+            let atorInserido = await atoresDAO.selectAtorById(idAtorNovo)
+
             if (novoAtor) {
 
                 //Cria o JSON de retorno dos dados (201)
@@ -69,6 +71,7 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
 
                 return atorNovoJSON //201
             } else {
+                
                return message.ERROR_INTERNAL_SERVER_DB //500
             }
         }
@@ -77,13 +80,14 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
     return message.ERROR_CONTENT_TYPE //415
 }
     }catch(error){
+        console.log(error)
        return message.ERROR_INTERNAL_SERVER //500 - erro na controller
     }
 
 }
 
 //função para atualizar um ator
-const setAtualizarAtor = async function (dadosAtualizados, id) {
+const setAtualizarAtor = async function (dadosAtor, id) {
 
     try {
         if(id == '' || id == undefined || isNaN(id)){
@@ -138,7 +142,7 @@ const getListarAtores = async function () {
     let atoresJSON = {};
 
     //chama a função do DAO que retorna os atores do BD
-    let dadosFilmes = await atoresDAO.selectAllAtores() //-> pede pro filmesDAO trazer todos os filmes do banco
+    let dadosAtores = await atoresDAO.selectAllAtores() //-> pede pro filmesDAO trazer todos os filmes do banco
 
     //validação para verificar se o DAO retonou dados
     if (dadosAtores) {

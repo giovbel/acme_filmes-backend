@@ -54,6 +54,7 @@ const controllerFilmes = require('./controller/controller_filme.js')
 const controllerGeneros = require('./controller/controller_genero.js')
 const controllerClassificacoes = require('./controller/controller_classificacao.js')
 const controllerUsuarios = require('./controller/controller_usuario.js')
+const controllerAtores = require('./controller/controller_ator.js')
 
 
 //********************************************************************************************************************
@@ -306,7 +307,7 @@ app.get('/v2/AcmeFilmes/usuarios', cors(), async (request, response) =>{
         response.json(listaDeUsuarios)
         response.status(200)
     }else{
-        response.json({erro:'itens não encontrados'})
+        response.json({erro:'Os dados não foram encontrados'})
         response.status(404)
     }
 })
@@ -352,6 +353,64 @@ app.delete('/v2/AcmeFilmes/usuario/:id', cors(), bodyParserJSON, async function(
 
     response.json(usuarioDeletado)
     response.status(usuarioDeletado.status_code)
+})
+
+//********************************ENDPOINTS DE ATOR***************************************
+
+//Endpoints: retorna a lista de atores do banco de dados
+app.get('/v2/AcmeFilmes/atores', cors(), async (request, response) =>{
+
+    let allAtores = await controllerAtores.getListarAtores()
+
+    if(allAtores){
+        response.json(allAtores)
+        response.status(200)
+    }else{
+        response.json({erro:'Os dados não foram encontrados'})
+        response.status(404)
+    }
+})
+
+//Endpoints: filtro para retornar ator pelo id 
+app.get('/v2/AcmeFilmes/ator/:id', cors(), async function (request, response) {
+
+    let idAtor = request.params.id
+    let dadosAtor = await controllerAtores.getBuscarAtor(idAtor)
+        response.status(dadosAtor.status_code)
+        response.json(dadosAtor)
+})
+
+//Endpoints: filtro para adicionar um novo ator
+app.post('/v2/AcmeFilmes/ator', cors(), bodyParserJSON, async function(request, response){
+
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let resultDadosNovoAtor = await controllerAtores.setInserirNovoAtor(dadosBody, contentType)
+    
+    response.status(resultDadosNovoAtor.status_code)
+    response.json(resultDadosNovoAtor)
+})
+
+//Endpoints: filtro para atualizar um ator
+app.put('/v2/AcmeFilmes/ator/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idAtor = request.params.id
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let atorAtualizado = await controllerAtores.setAtualizarAtor(idAtor, dadosBody, contentType)
+
+    response.json(atorAtualizado)
+    response.status(atorAtualizado.status_code)
+})
+
+//Endpoints: filtro para deletar um ator
+app.delete('/v2/AcmeFilmes/ator/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idAtor = request.params.id
+    let atorDeletado = await controllerAtores.setExcluirAtor(idAtor)
+
+    response.json(atorDeletado)
+    response.status(atorDeletado.status_code)
 })
 
 //******************************************************************************************/

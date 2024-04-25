@@ -27,18 +27,6 @@ const prisma = new PrismaClient();
             }else{
                 falecimento = null
             }
-
-            let foto
-            
-            if (dadosAtor.foto != null && 
-                dadosAtor.foto != "" && 
-                dadosAtor.foto != undefined){
-
-                foto = `'${dadosAtor.foto}'`
-            }else{
-
-                foto = null
-            }
     
             let sql = `insert into tbl_ator (nome, 
                                              nome_artistico, 
@@ -50,11 +38,11 @@ const prisma = new PrismaClient();
                                           '${dadosAtor.nome}', 
                                           '${dadosAtor.nome_artistico}', 
                                           '${dadosAtor.data_nascimento}', 
-                                          '${falecimento}, 
+                                           ${falecimento}, 
                                           '${dadosAtor.biografia}',
-                                          '${fotoAtor}'
+                                          '${dadosAtor.fotoAtor}'
         )`;
-    
+        
     let resultado = await prisma.$executeRawUnsafe(sql)
     
     if(resultado) {
@@ -63,12 +51,13 @@ const prisma = new PrismaClient();
         return false
     }
     } catch (error) {
+        console.log(error)
         return false
     }
     }
 
 //função para atualizar um ator no banco de dados
-const updateAtor = async (id, dadosAtualizados) => {
+const updateAtor = async (id, dadosAtor) => {
 
     try{
         let falecimento
