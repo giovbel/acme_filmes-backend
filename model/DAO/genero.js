@@ -34,10 +34,7 @@ const insertGenero = async (dadosGenero) => {
 
 //função para atualizar um genero no banco de dados
 const updateGenero = async (idGenero, dadosGenero) => {
-
-  let id = idGenero
-  let dados = dadosGenero
-
+  
   try {
 
     let sql = `update tbl_genero set nome = '${dados.nome}' where id = ${id}`

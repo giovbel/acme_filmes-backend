@@ -248,5 +248,5 @@ module.exports = {
     setExcluirFilme,
     getListarFilmes,
     getBuscarFilme,
-    getBuscarFilmeNome,
+    getBuscarFilmeNome
 }
