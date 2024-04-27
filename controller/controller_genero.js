@@ -50,10 +50,7 @@ const setInserirNovoGenero = async function (dadosGenero, contentType) {
 }
 
 //função para atualizar um genero
-const setAtualizarGenero = async function (id, dados, contentType) {
-
-    let idGenero = id
-    let dadosGenero = dados
+const setAtualizarGenero = async function (idGenero, dadosGenero, contentType) {
 
     try {
         if (String(contentType).toLowerCase() == 'application/json') {
@@ -88,9 +85,7 @@ const setAtualizarGenero = async function (id, dados, contentType) {
 }
 
 //função para excluir um genero
-const setExcluirGenero = async (id) => {
-
-    let idGenero = id
+const setExcluirGenero = async (idGenero) => {
 
     try {
         if (idGenero == "" || idGenero == undefined || isNaN(idGenero)) {
@@ -140,9 +135,7 @@ const getListarGeneros = async () => {
 }
 
 //função para buscar um genero pelo id 
-const getBuscarGenero = async (id) => {
-
-    let idGenero = id
+const getBuscarGenero = async (idGenero) => {
 
     try {
         if (idGenero == "" || idGenero == undefined || isNaN(idGenero)) {

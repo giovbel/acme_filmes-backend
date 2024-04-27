@@ -55,6 +55,7 @@ const controllerGeneros = require('./controller/controller_genero.js')
 const controllerClassificacoes = require('./controller/controller_classificacao.js')
 const controllerUsuarios = require('./controller/controller_usuario.js')
 const controllerAtores = require('./controller/controller_ator.js')
+const controllerNacionalidade = require('./controller/controller_nacionalidade.js')
 
 
 //********************************************************************************************************************
@@ -412,6 +413,24 @@ app.delete('/v2/AcmeFilmes/ator/:id', cors(), bodyParserJSON, async function(req
     response.json(atorDeletado)
     response.status(atorDeletado.status_code)
 })
+
+
+//********************************ENDPOINTS DE NACIONALIDADE***************************************
+
+//Endpoints: retorna a lista de nacionalidades do banco de dados
+app.get('/v2/AcmeFilmes/nacionalidades', cors(), async (request, response) =>{
+
+    let allNacio = await controllerNacionalidade.getListarNacio()
+
+    if(allNacio){
+        response.json(allNacio)
+        response.status(200)
+    }else{
+        response.json({erro:'Os dados não foram encontrados'})
+        response.status(404)
+    }
+})
+
 
 //******************************************************************************************/
 app.listen('8080', function(){
