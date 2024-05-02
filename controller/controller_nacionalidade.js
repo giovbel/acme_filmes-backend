@@ -31,7 +31,7 @@ const setInserirNovaNacio = async function (dadosNacio, contentType) {
                     dadosNacio.data_relancamento != "" && 
                     dadosNacio.data_relancamento != undefined) {
 
-                    if (dadosPais.data_relancamento.length != 500)
+                    if (dadosNacio.data_relancamento.length != 500)
                         return message.ERROR_REQUIRED_FIELDS //400
                     else
                         validateStatus = true
@@ -41,13 +41,13 @@ const setInserirNovaNacio = async function (dadosNacio, contentType) {
 
                 if(validateStatus){
                 
-                let novaNacio = await paisesDAO.insertPais(dadosNacio)
-                let novoId = await paisesDAO.selectLastInsertId()
+                let novaNacio = await nacionalidadeDAO.insertNacio(dadosNacio)
+                let novoId = await nacionalidadeDAO.selectLastInsertId()
 
                 if (novaNacio) {
 
-                    nacioAtualizadoJSON.pais = dadosNacio
-                    nacioAtualizadoJSON.pais.id = novoId
+                    nacioAtualizadoJSON.nacionalidade = dadosNacio
+                    nacioAtualizadoJSON.nacionalidade.id = novoId
                     nacioAtualizadoJSON.status = message.SUCCESS_CREATED_ITEM.status
                     nacioAtualizadoJSON.status_code = message.SUCCESS_CREATED_ITEM.status_code
                     nacioAtualizadoJSON.message = message.SUCCESS_CREATED_ITEM.message
@@ -64,45 +64,40 @@ const setInserirNovaNacio = async function (dadosNacio, contentType) {
                 return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER
     }
 }
 
 //função para atualizar uma nacionlidade
-const setAtualizarNacio = async function (idNacio, dadosNacio, contentType) {
-    
+const setAtualizarNacio = async (idNacio, dadosNacio, contentType) => {
+
     try {
         if (String(contentType).toLowerCase() == 'application/json') {
 
             let nacioAtualizadaJSON = {}
-            if (idNacio == "" || idNacio == undefined || isNaN(idNacio)) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            if (idNacio == "" || idNacio == undefined || isNaN(idNacio)) {    
+
                 return message.ERROR_INVALID_ID
             } else {
-                if (dadosNacio.gentilico == ""   || dadosNacio.gentilico == undefined || 
-                    dadosNacio.gentilico == null || dadosNacio.gentilico.length > 50  ||
-                    dadosNacio.sigla == ""       || dadosNacio.sigla == undefined     || 
-                    dadosNacio.sigla == null     || dadosNacio.sigla.length > 3
+                if ( dadosNacio.gentilico == "" || dadosNacio.gentilico == undefined || dadosNacio.gentilico == null || dadosNacio.gentilico.length > 50 ||
+                     dadosNacio.sigla == "" || dadosNacio.sigla == undefined || dadosNacio.sigla == null || dadosNacio.sigla.length > 3
             ) {
                 return message.ERROR_REQUIRED_FIELDS
             } else {
                 let validateStatus = false
 
-                if (dadosNacio.bandeira != null && 
-                    dadosNacio.bandeira != "" && 
-                    dadosNacio.bandeira != undefined) {
+                if (dadosNacio.bandeira != null && dadosNacio.bandeira != "" && dadosNacio.bandeira != undefined) {
 
-                    if (dadosNacio.bandeira.length != 500){
-                        return message.ERROR_REQUIRED_FIELDS //400
+                    if (dadosNacio.bandeira.length > 500){
+                        return message.ERROR_REQUIRED_FIELDS 
                     } else {
                         validateStatus = true
-                    }           
+                    }
                 } else {
                     validateStatus = true
                 }
-
                 if(validateStatus){
-
                     let nacioAtualizada = await nacionalidadeDAO.updateNacio(idNacio, dadosNacio)
 
                     if (nacioAtualizada) {
@@ -118,8 +113,8 @@ const setAtualizarNacio = async function (idNacio, dadosNacio, contentType) {
                         return message.ERROR_INTERNAL_SERVER_DB
                     }
                 }
+                }
             }
-        }
         } else {
             return message.ERROR_CONTENT_TYPE
         }
@@ -136,7 +131,7 @@ const setExcluirNacio = async (idNacio) => {
         if (idNacio == "" || idNacio == undefined || isNaN(idNacio)) {
             return message.ERROR_INVALID_ID
         }else{
-            let nacioDeletada = await paisesDAO.deletePais(idNacio)
+            let nacioDeletada = await nacionalidadeDAO.deleteNacio(idNacio)
 
             if(nacioDeletada) {
                 return message.SUCCESS_DELETED_ITEM
@@ -145,6 +140,7 @@ const setExcluirNacio = async (idNacio) => {
             }
         }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER
     }
 }
@@ -184,7 +180,7 @@ const getBuscarNacio = async (idNacio) => {
         } else {
 
             let nacionalidadesJSON = {}
-            let dadosNacio = await nacionalidadeDAO.selectByIdPais(idNacio)
+            let dadosNacio = await nacionalidadeDAO.selectNacioById(idNacio)
 
             if (dadosNacio) {
 
@@ -202,6 +198,7 @@ const getBuscarNacio = async (idNacio) => {
             }
         }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER
     }
 }
@@ -232,6 +229,7 @@ const getNacioByAtor = async (idAtor)=>{
             }
         }
     } catch (error) {
+        console.log(error)
         return [message.ERROR_INTERNAL_SERVER]
     }
 }

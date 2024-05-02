@@ -11,6 +11,7 @@ const message = require('../modulo/config.js')
 
 //import do arquivo responsável pela interação com o banco de dados
 const atoresDAO = require('../model/DAO/ator.js');
+const controllerNacionalidade = require('../controller/controller_nacionalidade.js')
 
 //função para inserir um novo ator
 const setInserirNovoAtor = async function (dadosAtor, contentType) {
@@ -27,7 +28,8 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
     if (dadosAtor.nome == ""           || dadosAtor.nome == undefined           || dadosAtor.nome == null            || dadosAtor.nome.length > 80            ||
         dadosAtor.nome_artistico == "" || dadosAtor.nome_artistico == undefined || dadosAtor.nome_artistico == null  || dadosAtor.nome_artistico.length > 18  ||
         dadosAtor.data_nascimento == ""|| dadosAtor.data_nascimento == undefined|| dadosAtor.data_nascimento == null || dadosAtor.data_nascimento.length > 15 ||
-        dadosAtor.biografia == ""      || dadosAtor.biografia == undefined      || dadosAtor.biografia == null
+        dadosAtor.biografia == ""      || dadosAtor.biografia == undefined      || dadosAtor.biografia == null ||
+        dadosAtor.foto == ""           || dadosAtor.foto == undefined           ||  dadosAtor.foto == null  
     ) {
 
        return message.ERROR_REQUIRED_FIELDS //400
@@ -87,29 +89,34 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
 }
 
 //função para atualizar um ator
-const setAtualizarAtor = async function (dadosAtor, id) {
+const setAtualizarAtor = async function (id,dadosAtor, contentType) {
 
     try {
         if(id == '' || id == undefined || isNaN(id)){
+            console.log(id)
             return message.ERROR_INVALID_ID //400
         }else{
             if(dadosAtor.nome == ""                 || dadosAtor.nome == undefined            || dadosAtor.nome == null                 || dadosAtor.nome.length > 80 ||
                dadosAtor.nome_artistico == ""       || dadosAtor.nome_artistico == undefined  || dadosAtor.nome_artistico == null       || dadosAtor.nome_artistico.length > 18 || 
                dadosAtor.data_nascimento == ""      || dadosAtor.data_nascimento == undefined || dadosAtor.data_nascimento == null      || dadosAtor.data_nascimento.length > 15 || 
-               dadosAtor.biografia == ""            || dadosAtor.biografia == undefined       ||  dadosAtor.biografia == null 
+               dadosAtor.biografia == ""            || dadosAtor.biografia == undefined       ||  dadosAtor.biografia == null ||
+               dadosAtor.foto == ""                 || dadosAtor.foto == undefined            ||  dadosAtor.foto == null  
             ){
                 return message.ERROR_REQUIRED_FIELDS 
             }else{
-                let dadosAtualizado = await atoresDAO.updateAtor(id, dadosAtualizados)
-                if(dadosAtualizado){
+                let dadosAtualizados = await atoresDAO.updateAtor(id, dadosAtor)
+                let nacioAtualizada = await atoresDAO.updateNacioAtor(id,dadosAtor.nacionalidade)
+                if(dadosAtualizados && nacioAtualizada){
                     return message.SUCCESS_UPDATED_ITEM //201
             }else{
+                
                 return message.ERROR_INTERNAL_SERVER_DB //500
             }
         }
 
 }
  } catch (error) {
+    console.log(error)
     return message.ERROR_INTERNAL_SERVER
 }
 }
@@ -143,6 +150,11 @@ const getListarAtores = async function () {
 
     //chama a função do DAO que retorna os atores do BD
     let dadosAtores = await atoresDAO.selectAllAtores() //-> pede pro filmesDAO trazer todos os filmes do banco
+
+    await Promise.all(dadosAtores.map(async function (ator){
+        let dadosNacio = await controllerNacionalidade.getNacioByAtor(ator.id)
+        ator.nacionalidade = dadosNacio
+    }))
 
     //validação para verificar se o DAO retonou dados
     if (dadosAtores) {

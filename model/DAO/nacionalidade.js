@@ -12,7 +12,7 @@ const { PrismaClient } = require('@prisma/client');
 //instância da classe prisma client
 const prisma = new PrismaClient();
 
-const insertNacao = async (dadosNacio) => {
+const insertNacio = async (dadosNacio) => {
 
     let sql
 
@@ -63,16 +63,14 @@ const updateNacio = async (idNacio, dadosNacio) => {
             dadosNacio.data_relancamento != "" && 
             dadosNacio.data_relancamento != undefined) {
 
-            sql = `update tbl_nacionalidade set nome = '${dadosNacio.nome}',
-                                                gentilico = '${dadosNacio.gentilico}',
+            sql = `update tbl_nacionalidade set gentilico = '${dadosNacio.gentilico}',
                                                 sigla = '${dadosNacio.sigla}'
                                                 where id = ${idNacio}`
 
         } else {
-            sql = `update tbl_nacionalidade set nome = '${dadosNacio.nome}',
-                                            sigla = '${dadosNacio.sigla}',
-                                            bandeira = '${dadosNacio.bandeira}'
-                                            where id = ${idNacio}`
+            sql = `update tbl_nacionalidade set sigla = '${dadosNacio.sigla}',
+                                                bandeira = '${dadosNacio.bandeira}'
+                                                where id = ${idNacio}`
         }
 
         let resultado = await prisma.$executeRawUnsafe(sql)
@@ -83,6 +81,7 @@ const updateNacio = async (idNacio, dadosNacio) => {
             return false
         }
     } catch (error) {
+        console.log(error)
         return false
     }
 }
@@ -160,7 +159,7 @@ const selectLastInsertId = async function () {
     }
 }
 
-const selectAtorByAtorNacio = async function () {
+const selectAtorByAtorNacio = async function (idAtor) {
 
     try {
         
@@ -176,6 +175,7 @@ const selectAtorByAtorNacio = async function () {
             return false
         }
     } catch (error) {
+        console.log(error)
         return false
     }
 }
@@ -183,7 +183,7 @@ const selectAtorByAtorNacio = async function () {
 
 
 module.exports = {
-    insertNacao,
+    insertNacio,
     updateNacio,
     deleteNacio,
     selectAllNacio,

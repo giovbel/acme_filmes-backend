@@ -40,8 +40,8 @@ const prisma = new PrismaClient();
                                           '${dadosAtor.data_nascimento}', 
                                            ${falecimento}, 
                                           '${dadosAtor.biografia}',
-                                          '${dadosAtor.fotoAtor}'
-        )`;
+                                          '${dadosAtor.foto}'
+                                          )`;
         
     let resultado = await prisma.$executeRawUnsafe(sql)
     
@@ -55,6 +55,28 @@ const prisma = new PrismaClient();
         return false
     }
     }
+
+const insertNacioAtor = async (idAtor, idNacio) => {
+    try{
+        let sql = `insert into tbl_ator_nacionalidade (ator_id,
+                                                       nacionalidade_id
+                                               ) values(
+                                                       ${idAtor},
+                                                       ${idNacio}
+                                                  )`;
+
+        let resultado = await prisma.$executeRawUnsafe(sql)
+
+        if(resultado)
+        return true
+        else
+        return false
+
+    }catch(error){
+        console.log(error)
+        return false
+    }
+}
 
 //função para atualizar um ator no banco de dados
 const updateAtor = async (id, dadosAtor) => {
@@ -71,25 +93,36 @@ const updateAtor = async (id, dadosAtor) => {
             falecimento = null
         }
 
-        let foto
-        
-        if (dadosAtor.foto != null && 
-            dadosAtor.foto != "" && 
-            dadosAtor.foto != undefined){
-
-            foto = `'${dadosAtor.foto}'`
-        }else{
-
-            foto = null
-        }
-
         let sql = `update tbl_ator set nome = '${dadosAtor.nome}',
                                        nome_artistico = '${dadosAtor.nome_artistico}', 
                                        data_nascimento = '${dadosAtor.data_nascimento}',
                                        data_falecimento = ${falecimento},
                                        biografia = '${dadosAtor.biografia}',
-                                       foto = ${fotoAtor}
-                                       where id = ${id}`
+                                       foto = '${dadosAtor.foto}'
+                                       where id = ${id}`;
+
+
+        let resultado = await prisma.$executeRawUnsafe(sql)
+
+        if(resultado)
+        return true
+        else
+        return false
+
+    }catch(error){
+        console.log(error)
+        return false
+    }
+
+}
+
+const updateNacioAtor = async (idNacio, idAtor) => {
+
+    try{
+        let sql = `update tbl_ator_nacionalidade set ator_id = ${idAtor},
+                                                     nacionalidade_id = ${idNacio}
+        `;
+
 
         let resultado = await prisma.$executeRawUnsafe(sql)
 
@@ -177,7 +210,7 @@ const selectAtorByIdFilme = async (idFilme) =>{
 
         let resultado = await prisma.$queryRawUnsafe(sql)
     if(resultado){
-        return result
+        return resultado
     }else {
         return false
     }
@@ -188,7 +221,9 @@ const selectAtorByIdFilme = async (idFilme) =>{
 
 module.exports = {
     insertAtor,
+    insertNacioAtor,
     updateAtor,
+    updateNacioAtor,
     deleteAtor,
     selectAllAtores,
     selectAtorById,

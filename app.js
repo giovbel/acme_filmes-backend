@@ -431,6 +431,53 @@ app.get('/v2/AcmeFilmes/nacionalidades', cors(), async (request, response) =>{
     }
 })
 
+//Endpoints: filtro para retornar nacionalidade pelo id 
+app.get('/v2/AcmeFilmes/nacionalidade/:id', cors(), async function (request, response){
+
+    let idNacio = request.params.id
+    let nacionalidade = await controllerNacionalidade.getBuscarNacio(idNacio)
+
+    if(nacionalidade){
+        response.json(nacionalidade)
+        response.status(200)
+    }else{
+        response.json({erro:'Os dados não foram encontrados'})
+        response.status(404)
+    }
+})
+
+//Endpoints: filtro para adicionar uma nova nacionalidade
+app.post('/v2/AcmeFilmes/nacionalidade', cors(), bodyParserJSON, async function(request, response){
+
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let resultDadosNovaNacio = await controllerNacionalidade.setInserirNovaNacio(dadosBody, contentType)
+    
+    response.status(resultDadosNovaNacio.status_code)
+    response.json(resultDadosNovaNacio)
+})
+
+//Endpoints: filtro para atualizar uma nacionalidade
+app.put('/v2/AcmeFilmes/nacionalidade/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idNacio = request.params.id
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let nacioAtualizada = await controllerNacionalidade.setAtualizarNacio(idNacio, dadosBody, contentType)
+
+    response.json(nacioAtualizada)
+    response.status(nacioAtualizada.status_code)
+})
+
+//Endpoints: filtro para deletar uma nacionalidade
+app.delete('/v2/AcmeFilmes/nacionalidade/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idNacio = request.params.id
+    let nacioDeletada = await controllerNacionalidade.setExcluirNacio(idNacio)
+
+    response.json(nacioDeletada)
+    response.status(nacioDeletada.status_code)
+})
 
 //******************************************************************************************/
 app.listen('8080', function(){
