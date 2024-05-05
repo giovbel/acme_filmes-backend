@@ -56,6 +56,7 @@ const controllerClassificacoes = require('./controller/controller_classificacao.
 const controllerUsuarios = require('./controller/controller_usuario.js')
 const controllerAtores = require('./controller/controller_ator.js')
 const controllerNacionalidade = require('./controller/controller_nacionalidade.js')
+const controllerDiretor = require('./controller/controller_diretor.js')
 
 
 //********************************************************************************************************************
@@ -477,6 +478,54 @@ app.delete('/v2/AcmeFilmes/nacionalidade/:id', cors(), bodyParserJSON, async fun
 
     response.json(nacioDeletada)
     response.status(nacioDeletada.status_code)
+})
+
+
+//********************************ENDPOINTS DE DIRETOR***************************************
+
+//Endpoints: retorna a lista de diretores do banco de dados
+app.get('/v2/AcmeFilmes/diretores', cors(), async (request, response) =>{
+
+    let listaDeDiretores = await controllerDiretores.getListarDiretores()
+
+    if(listaDeDiretores){
+        response.json(listaDeDiretores)
+        response.status(200)
+    }else{
+        response.json({erro:'itens não encontrados'})
+        response.status(404)
+    }
+})
+
+//Endpoints: filtro retorna diretor pelo id
+app.get('/v2/AcmeFilmes/diretor/:id', cors(), async function (request, response) {
+
+    let idDiretor = request.params.id
+
+    let dadosDiretor = await controllerDiretores.getBuscarDiretor(idDiretor)
+        response.status(dadosDiretor.status_code)
+        response.json(dadosDiretor)
+})
+
+//Endpoints: filtro para adicionar um novo diretor
+app.post('/v2/AcmeFilmes/diretor', cors(), bodyParserJSON, async function(request, response){
+
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let resultDadosNovoDiretor = await controllerDiretores.setInserirNovoDiretor(dadosBody, contentType)
+    
+    response.status(resultDadosNovoDiretor.status_code)
+    response.json(resultDadosNovoDiretor)
+})
+
+//Endpoints: filtro para excluir um diretor
+app.delete('/v2/AcmeFilmes/diretor/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idDiretor = request.params.id
+    let diretorDeletado = await controllerDiretores.setExcluirDiretor(idDiretor)
+
+    response.json(diretorDeletado)
+    response.status(diretorDeletado.status_code)
 })
 
 //******************************************************************************************/

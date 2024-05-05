@@ -56,7 +56,7 @@ const prisma = new PrismaClient();
     }
     }
 
-const insertNacioAtor = async (idAtor, idNacio) => {
+const insertNacionalidadeAtor = async (idAtor, idNacio) => {
     try{
         let sql = `insert into tbl_ator_nacionalidade (ator_id,
                                                        nacionalidade_id
@@ -116,7 +116,7 @@ const updateAtor = async (id, dadosAtor) => {
 
 }
 
-const updateNacioAtor = async (idNacio, idAtor) => {
+const updateNacionalidadeAtor = async (idNacio, idAtor) => {
 
     try{
         let sql = `update tbl_ator_nacionalidade set ator_id = ${idAtor},
@@ -221,9 +221,9 @@ const selectAtorByIdFilme = async (idFilme) =>{
 
 module.exports = {
     insertAtor,
-    insertNacioAtor,
+    insertNacionalidadeAtor,
     updateAtor,
-    updateNacioAtor,
+    updateNacionalidadeAtor,
     deleteAtor,
     selectAllAtores,
     selectAtorById,

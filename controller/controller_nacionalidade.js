@@ -203,7 +203,7 @@ const getBuscarNacio = async (idNacio) => {
     }
 }
 
-const getNacioByAtor = async (idAtor)=>{
+const getNacionalidadeByAtor = async (idAtor)=>{
 
     try {
         if (idAtor == "" || idAtor == undefined || isNaN(idAtor)) {
@@ -240,5 +240,6 @@ module.exports = {
     setExcluirNacio,
     getListarNacio,
     getBuscarNacio,
-    getNacioByAtor
+    getNacionalidadeByAtor,
+    getNacionalidadePorDiretor
 }

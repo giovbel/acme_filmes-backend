@@ -38,12 +38,12 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
 
         let validateFalecimento = false
 
-        //validação da data de falecimento, ja qe ela não é obrigatória no BD
+        //validação da data de falecimento (ela não é obrigatória no BD)
         if (dadosAtor.data_falecimento != null && 
             dadosAtor.data_falecimento != "" && 
             dadosAtor.data_falecimento != undefined) {
 
-            //validação para ver se a data está com a qtde de digitoss correta
+            //validação para ver se a data está com a qtde de digitos correta
             if (dadosAtor.data_falecimento.length != 10){
                 return message.ERROR_REQUIRED_FIELDS //400
             } else {
@@ -56,7 +56,7 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
         //validaçao para verificar se a variável booleana é verdadeira
         if(validateFalecimento){
             
-            //encaminha os dados do filme para o DAO inserir no banco de dados
+            //encaminha os dados do ator para o DAO inserir no banco de dados
             let novoAtor = await atoresDAO.insertAtor(dadosAtor)
             let idAtorNovo = await atoresDAO.selectLastInsertId()
 
@@ -105,7 +105,7 @@ const setAtualizarAtor = async function (id,dadosAtor, contentType) {
                 return message.ERROR_REQUIRED_FIELDS 
             }else{
                 let dadosAtualizados = await atoresDAO.updateAtor(id, dadosAtor)
-                let nacioAtualizada = await atoresDAO.updateNacioAtor(id,dadosAtor.nacionalidade)
+                let nacioAtualizada = await atoresDAO.updateNacionalidadeAtor(id,dadosAtor.nacionalidade)
                 if(dadosAtualizados && nacioAtualizada){
                     return message.SUCCESS_UPDATED_ITEM //201
             }else{
@@ -152,7 +152,7 @@ const getListarAtores = async function () {
     let dadosAtores = await atoresDAO.selectAllAtores() //-> pede pro filmesDAO trazer todos os filmes do banco
 
     await Promise.all(dadosAtores.map(async function (ator){
-        let dadosNacio = await controllerNacionalidade.getNacioByAtor(ator.id)
+        let dadosNacio = await controllerNacionalidade.getNacionalidadeByAtor(ator.id)
         ator.nacionalidade = dadosNacio
     }))
 
