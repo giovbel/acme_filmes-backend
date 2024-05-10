@@ -184,7 +184,7 @@ const getListarDiretores = async function () {
         let dadosDiretores = await diretoresDAO.selectAllDiretores();
 
         await Promise.all(dadosDiretores.map(async (diretor) => {
-            let nacionalidadeDiretor = await controllerNacionalidade.getNacionalidadePorDiretor(diretor.id);
+            let nacionalidadeDiretor = await controllerNacionalidade.getNacionalidadeByDiretor(diretor.id);
             diretor.nacionalidade = nacionalidadeDiretor;
         }));
         
@@ -204,6 +204,7 @@ const getListarDiretores = async function () {
             return message.ERROR_INTERNAL_SERVER_DB;
         }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER;
     }
 }
@@ -217,13 +218,13 @@ const getBuscarDiretor = async (idDiretor) =>{
         } else {
 
             let diretorJSON = {}
-            let dadosDiretor = await diretoresDAO.selectByIdDiretor(idDiretor)
+            let dadosDiretor = await diretoresDAO.selectDiretorById(idDiretor)
         
             if (dadosDiretor) {
 
                 if (dadosDiretor.length > 0) {
                     diretorJSON.diretor = dadosDiretor
-                    dadosDiretor[0].nacionalidade = await controllerPaises.getPaisesPorDiretor(id);
+                    dadosDiretor[0].nacionalidade = await controllerNacionalidade.getNacionalidadeByDiretor(idDiretor);
                     diretorJSON.status_code = 200
 
                 return diretorJSON
@@ -235,6 +236,7 @@ const getBuscarDiretor = async (idDiretor) =>{
     }
 }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER
     }
 }

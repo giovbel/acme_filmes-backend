@@ -486,7 +486,7 @@ app.delete('/v2/AcmeFilmes/nacionalidade/:id', cors(), bodyParserJSON, async fun
 //Endpoints: retorna a lista de diretores do banco de dados
 app.get('/v2/AcmeFilmes/diretores', cors(), async (request, response) =>{
 
-    let listaDeDiretores = await controllerDiretores.getListarDiretores()
+    let listaDeDiretores = await controllerDiretor.getListarDiretores()
 
     if(listaDeDiretores){
         response.json(listaDeDiretores)
@@ -502,7 +502,7 @@ app.get('/v2/AcmeFilmes/diretor/:id', cors(), async function (request, response)
 
     let idDiretor = request.params.id
 
-    let dadosDiretor = await controllerDiretores.getBuscarDiretor(idDiretor)
+    let dadosDiretor = await controllerDiretor.getBuscarDiretor(idDiretor)
         response.status(dadosDiretor.status_code)
         response.json(dadosDiretor)
 })
@@ -512,7 +512,7 @@ app.post('/v2/AcmeFilmes/diretor', cors(), bodyParserJSON, async function(reques
 
     let contentType = request.header('content-type')
     let dadosBody = request.body
-    let resultDadosNovoDiretor = await controllerDiretores.setInserirNovoDiretor(dadosBody, contentType)
+    let resultDadosNovoDiretor = await controllerDiretor.setInserirNovoDiretor(dadosBody, contentType)
     
     response.status(resultDadosNovoDiretor.status_code)
     response.json(resultDadosNovoDiretor)

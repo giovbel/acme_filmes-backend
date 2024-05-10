@@ -41,7 +41,7 @@ const insertDiretor = async function (dadosDiretor){
                                            '${dadosDiretor.data_nascimento}', 
                                             ${falecimento}, 
                                            '${dadosDiretor.biografia}',
-                                            ${foto}
+                                            ${dadosDiretor.foto}
         )`
         let resultado = await prisma.$executeRawUnsafe(sql)
 
@@ -97,7 +97,7 @@ const updateDiretor = async function (id, dadosDiretor){
                                           data_nascimento = '${dadosDiretor.data_nascimento}',
                                           data_falecimento = ${falecimento},
                                           biografia = '${dadosDiretor.biografia}',
-                                          foto = ${foto}
+                                          foto = ${dadosDiretor.foto}
                                           where id = ${id}`
 
         

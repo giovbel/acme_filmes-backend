@@ -37,7 +37,7 @@ const updateGenero = async (idGenero, dadosGenero) => {
   
   try {
 
-    let sql = `update tbl_genero set nome = '${dados.nome}' where id = ${id}`
+    let sql = `update tbl_genero set nome = '${dadosGenero.nome}' where id = ${idGenero}`
     let resultado = await prisma.$executeRawUnsafe(sql)
 
     if(resultado){
@@ -50,8 +50,9 @@ const updateGenero = async (idGenero, dadosGenero) => {
   }
 }
 
+
 //função para excluir um genero no banco de dados
-const deleteGenero = async () => {
+const deleteGenero = async (id) => { 
 
   try {
 
@@ -64,9 +65,11 @@ const deleteGenero = async () => {
      return false
     } 
   } catch (error) {
+    console.error(error);
     return false
   }
 }
+
 
 //função para listar todos os generos do banco de dados
 const selectAllGeneros = async () =>{

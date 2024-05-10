@@ -57,7 +57,7 @@ const setAtualizarGenero = async function (idGenero, dadosGenero, contentType) {
 
             let generoAtualizadoJSON = {}
 
-            if (idGenero == "" || idGenero == undefined || idGenero(isNaN)) {
+            if (idGenero == "" || idGenero == undefined || isNaN(idGenero)) {
                 return message.ERROR_INVALID_ID
             } else {
 
@@ -69,8 +69,8 @@ const setAtualizarGenero = async function (idGenero, dadosGenero, contentType) {
                     generoAtualizadoJSON.status = message.SUCCESS_UPDATED_ITEM.status
                     generoAtualizadoJSON.status_code = message.SUCCESS_UPDATED_ITEM.status_code
                     generoAtualizadoJSON.message = message.SUCCESS_UPDATED_ITEM.message
-
-                    return generoAtualizadoJSON
+                
+                    return generoAtualizadoJSON                
                 } else {
                     message.ERROR_INTERNAL_SERVER_DB
                 }
@@ -80,31 +80,31 @@ const setAtualizarGenero = async function (idGenero, dadosGenero, contentType) {
         }
 
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER
     }
 }
 
-//função para excluir um genero
+// Função para excluir um gênero
 const setExcluirGenero = async (idGenero) => {
-
     try {
-        if (idGenero == "" || idGenero == undefined || isNaN(idGenero)) {
-            return message.ERROR_INVALID_ID
+        if (!idGenero || idGenero.trim() === "" || isNaN(idGenero)) {
+            return message.ERROR_INVALID_ID;
         } else {
-            let generoDeletado = await generoDAO.deleteGenero(idGenero)
+            //generoDAO.deleteGenero retorna true se a exclusão for bem-sucedida
+            let generoDeletado = await generoDAO.deleteGenero(idGenero);
 
-            if(generoDeletado){
-                return message.SUCCESS_DELETED_ITEM
+            if (generoDeletado) {
+                return message.SUCCESS_DELETED_ITEM;
             } else {
-                return message.ERROR_INTERNAL_SERVER_DB
+                return message.ERROR_INTERNAL_SERVER_DB;
             }
         }
-        
     } catch (error) {
-        return message.ERROR_INTERNAL_SERVER
+        console.log(error);
+        return message.ERROR_INTERNAL_SERVER;
     }
-
-}
+};
 
 //função para listar todos os generos
 const getListarGeneros = async () => {

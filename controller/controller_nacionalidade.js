@@ -203,6 +203,7 @@ const getBuscarNacio = async (idNacio) => {
     }
 }
 
+//Pegar a nacionalidade do ator e incluir no JSON da função get de todos os atores
 const getNacionalidadeByAtor = async (idAtor)=>{
 
     try {
@@ -210,15 +211,15 @@ const getNacionalidadeByAtor = async (idAtor)=>{
 
             return [message.ERROR_INVALID_ID]
         } else {
+
             let nacioArray = []
-            let dadosNacio = await nacionalidadeDAO.selectAtorByAtorNacio(idAtor)
+            let dadosNacio = await nacionalidadeDAO.selectByAtorNacio(idAtor)
 
             dadosNacio.forEach(nacionalidade =>{
                 nacioArray.push(nacionalidade)
             })
 
             if (dadosNacio) {
-
                 if (dadosNacio.length > 0) {
                     return nacioArray
                 } else {
@@ -234,6 +235,35 @@ const getNacionalidadeByAtor = async (idAtor)=>{
     }
 }
 
+const getNacionalidadeByDiretor = async (idDiretor)=>{
+
+    try {
+        if (idDiretor == "" || idDiretor == undefined || isNaN(idDiretor)) {
+            return [message.ERROR_INVALID_ID]
+        } else {
+
+            let nacionalidadeArray = []
+            let dadosNacio = await nacionalidadeDAO.selectByDiretorNacio(idDiretor)
+
+            dadosNacio.forEach(nacionalidade =>{
+                nacionalidadeArray.push(nacionalidade)
+            })
+
+            if (dadosNacio) {
+                if (dadosNacio.length > 0) {
+                    return nacionalidadeArray
+                } else {
+                    return [message.ERROR_NOT_FOUND]
+                }
+            } else {
+                return [message.ERROR_INTERNAL_SERVER_DB]
+            }
+        }
+    } catch (error) {
+        return [message.ERROR_INTERNAL_SERVER]
+    }
+}
+
 module.exports = {
     setInserirNovaNacio,
     setAtualizarNacio,
@@ -241,5 +271,5 @@ module.exports = {
     getListarNacio,
     getBuscarNacio,
     getNacionalidadeByAtor,
-    getNacionalidadePorDiretor
+    getNacionalidadeByDiretor
 }

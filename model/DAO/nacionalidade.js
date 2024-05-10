@@ -159,7 +159,7 @@ const selectLastInsertId = async function () {
     }
 }
 
-const selectAtorByAtorNacio = async function (idAtor) {
+const selectByAtorNacio = async function (idAtor) {
 
     try {
         
@@ -180,6 +180,25 @@ const selectAtorByAtorNacio = async function (idAtor) {
     }
 }
 
+const selectByDiretorNacio = async (idDiretor) => {
+
+    try {
+
+        let sql = `select tbl_nacionalidade.id, tbl_nacionalidade.gentilico, tbl_nacionalidade.sigla, tbl_nacionalidade.bandeira from tbl_nacionalidade 
+        inner join tbl_diretor_nacionalidade on tbl_nacionalidade.id=tbl_diretor_nacionalidade.nacionalidade_id 
+        inner join tbl_diretor on tbl_diretor_nacionalidade.diretor_id= tbl_diretor.id where tbl_diretor.id = ${idDiretor};
+        `
+        let resultado = await prisma.$queryRawUnsafe(sql)
+
+        if (resultado){
+            return resultado
+        } else {
+            return false
+        }
+    } catch (error) {
+        return false
+    }
+}
 
 
 module.exports = {
@@ -189,5 +208,6 @@ module.exports = {
     selectAllNacio,
     selectNacioById,
     selectLastInsertId,
-    selectAtorByAtorNacio
+    selectByAtorNacio,
+    selectByDiretorNacio
 }
