@@ -65,8 +65,11 @@ const insertNacionalidadeAtor = async (idAtor, idNacio) => {
                                                        ${idNacio}
                                                   )`;
 
+                                                  console.log(sql)
+
         let resultado = await prisma.$executeRawUnsafe(sql)
 
+        console.log(resultado)
         if(resultado)
         return true
         else

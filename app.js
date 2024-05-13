@@ -518,11 +518,23 @@ app.post('/v2/AcmeFilmes/diretor', cors(), bodyParserJSON, async function(reques
     response.json(resultDadosNovoDiretor)
 })
 
+//Endpoints: filtro para atualizar um diretor
+app.put('/v2/AcmeFilmes/diretor/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idDiretor = request.params.id
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let diretorAtualizado = await controllerDiretor.setAtualizarDiretor(idDiretor, dadosBody, contentType)
+
+    response.json(diretorAtualizado)
+    response.status(diretorAtualizado.status_code)
+})
+
 //Endpoints: filtro para excluir um diretor
 app.delete('/v2/AcmeFilmes/diretor/:id', cors(), bodyParserJSON, async function(request, response){
 
     let idDiretor = request.params.id
-    let diretorDeletado = await controllerDiretores.setExcluirDiretor(idDiretor)
+    let diretorDeletado = await controllerDiretor.setExcluirDiretor(idDiretor)
 
     response.json(diretorDeletado)
     response.status(diretorDeletado.status_code)

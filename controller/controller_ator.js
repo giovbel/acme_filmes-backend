@@ -60,6 +60,17 @@ const setInserirNovoAtor = async function (dadosAtor, contentType) {
             let novoAtor = await atoresDAO.insertAtor(dadosAtor)
             let idAtorNovo = await atoresDAO.selectLastInsertId()
 
+            let novaNacionalidadeAtor 
+
+            dadosAtor.nacionalidade.forEach(async idNacionalidade =>{
+            if(!isNaN(idNacionalidade)){
+                novaNacionalidadeAtor = await atoresDAO.insertNacionalidadeAtor( idAtorNovo, idNacionalidade)
+            }
+            else {
+                return message.ERROR_INVALID_VALUE
+            }                
+        })
+
             //validação para verificar se o DAO inseriu os dados do BD
             let atorInserido = await atoresDAO.selectAtorById(idAtorNovo)
 

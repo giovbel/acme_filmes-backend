@@ -28,8 +28,7 @@ const insertDiretor = async function (dadosDiretor){
             falecimento = null
         }
 
-        let sql
-            sql = `INSERT INTO tbl_diretor (nome, 
+        let sql = `insert into tbl_diretor (nome, 
                                             nome_artistico, 
                                             data_nascimento, 
                                             data_falecimento, 
@@ -41,7 +40,7 @@ const insertDiretor = async function (dadosDiretor){
                                            '${dadosDiretor.data_nascimento}', 
                                             ${falecimento}, 
                                            '${dadosDiretor.biografia}',
-                                            ${dadosDiretor.foto}
+                                           '${dadosDiretor.foto}'
         )`
         let resultado = await prisma.$executeRawUnsafe(sql)
 
@@ -59,7 +58,7 @@ const insertDiretor = async function (dadosDiretor){
 const insertNacioDiretor = async function(idDiretor, idNacionalidade){
 
     try {
-
+            
         let sql = `INSERT INTO tbl_diretor_nacionalidade (diretor_id, 
                                                           nacionalidade_id
                                                     ) values(
@@ -97,7 +96,7 @@ const updateDiretor = async function (id, dadosDiretor){
                                           data_nascimento = '${dadosDiretor.data_nascimento}',
                                           data_falecimento = ${falecimento},
                                           biografia = '${dadosDiretor.biografia}',
-                                          foto = ${dadosDiretor.foto}
+                                          foto = '${dadosDiretor.foto}'
                                           where id = ${id}`
 
         
@@ -120,7 +119,7 @@ const updateNacionalidadeDiretor = async function (idDiretor, idNacionalidade, i
 
     try{
 
-        let sql = `update tbl_nacionalidade_diretor set 
+        let sql = `update tbl_diretor_nacionalidade set 
                                             nacionalidade_id = ${idNacionalidade}
                                             where diretor_id = ${idDiretor} 
                                             and nacionalidade_id = ${idNacionalidadeAntes}`
@@ -145,7 +144,8 @@ const deleteDiretor = async function (idDiretor){
         let sql = `delete from tbl_diretor where id = ${idDiretor}`
 
         let resultado = await prisma.$executeRawUnsafe(sql)
-       
+       console.log(sql)
+
         if (resultado)
         return true
         else
@@ -163,6 +163,7 @@ const deleteNacionalidadeDiretor = async function (idDiretor) {
         let sql = `delete from tbl_diretor_nacionalidade where diretor_id = ${idDiretor}`
 
         let resultado = await prisma.$executeRawUnsafe(sql)
+        console.log(sql)
      
         if (resultado)
         return true

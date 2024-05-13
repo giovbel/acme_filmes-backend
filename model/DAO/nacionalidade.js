@@ -164,7 +164,7 @@ const selectByAtorNacio = async function (idAtor) {
     try {
         
         let sql = `select tbl_nacionalidade.id, tbl_nacionalidade.gentilico, tbl_nacionalidade.sigla, tbl_nacionalidade.bandeira from tbl_nacionalidade 
-        inner join tbl_ator_nacionalidade on tbl_nacionalidade.id=tbl_ator_nacionalidade.id 
+        inner join tbl_ator_nacionalidade on tbl_nacionalidade.id=tbl_ator_nacionalidade.nacionalidade_id
         inner join tbl_ator on tbl_ator_nacionalidade.ator_id= tbl_ator.id where tbl_ator.id = ${idAtor};
         `
         let resultado = await prisma.$queryRawUnsafe(sql)
