@@ -219,6 +219,7 @@ const getNacionalidadeByAtor = async (idAtor)=>{
                 nacioArray.push(nacionalidade)
             })
 
+           
             if (dadosNacio) {
                 if (dadosNacio.length > 0) {
                     return nacioArray

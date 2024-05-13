@@ -41,7 +41,7 @@ const insertDiretor = async function (dadosDiretor){
                                            '${dadosDiretor.data_nascimento}', 
                                             ${falecimento}, 
                                            '${dadosDiretor.biografia}',
-                                            ${dadosDiretor.foto}
+                                           '${dadosDiretor.foto}'
         )`
         let resultado = await prisma.$executeRawUnsafe(sql)
 
@@ -59,7 +59,7 @@ const insertDiretor = async function (dadosDiretor){
 const insertNacioDiretor = async function(idDiretor, idNacionalidade){
 
     try {
-
+            
         let sql = `INSERT INTO tbl_diretor_nacionalidade (diretor_id, 
                                                           nacionalidade_id
                                                     ) values(

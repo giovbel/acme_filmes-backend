@@ -58,14 +58,15 @@ const setInserirNovoDiretor = async function (dadosDiretor, contentType) {
 
             //encaminha os dados do diretor para o DAO inserir no banco de dados
             let novoDiretor = await diretoresDAO.insertDiretor(dadosDiretor)
+            console.log(novoDiretor)
             let idNovoDiretor = await diretoresDAO.selectLastInsertId()
             
             let novaNacionalidadeDiretor 
 
                 dadosDiretor.nacionalidade.forEach(async idNacionalidade =>{
-                if(!isNaN(idNacionalidade))
-                
-                novaNacionalidadeDiretor = await diretoresDAO.insertNacionalidadeDiretor(idNovoDiretor, idNacionalidade)
+                if(!isNaN(idNacionalidade)){
+                novaNacionalidadeDiretor = await diretoresDAO.insertNacioDiretor(idNovoDiretor, idNacionalidade)
+                }
                 else {
                     return message.ERROR_INVALID_VALUE
                 }                
@@ -75,7 +76,7 @@ const setInserirNovoDiretor = async function (dadosDiretor, contentType) {
             let diretorInserido = await diretoresDAO.selectDiretorById(idNovoDiretor)
 
                 //Cria o JSON de retorno dos dados (201)
-                if (novoDiretor && novaNacionalidadeDiretor) {
+                if (novoDiretor) {
                     novoDiretorJSON.diretor = diretorInserido
                     novoDiretorJSON.status = message.SUCCESS_CREATED_ITEM.status
                     novoDiretorJSON.status_code = message.SUCCESS_CREATED_ITEM.status_code
