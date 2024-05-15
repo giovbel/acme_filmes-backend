@@ -71,6 +71,7 @@ const setAtualizarFuncionario = async function (idFuncionario, dadosFuncionario,
 
                 ) {
                     return message.ERROR_REQUIRED_FIELDS
+                    console.log(message)
                 } else {
 
                         let funcionarioAtualizado = await funcionariosDAO.updateFuncionario(idFuncionario, dadosFuncionario)

@@ -22,9 +22,9 @@ const insertFuncionario = async function (dadosFuncionario){
                                                 telefone
                                         ) values (
                                                 '${dadosFuncionario.nome}', 
-                                                '${dadosFuncionario.login}', 
-                                                '${dadosFuncionario.senha}'),
-                                                '${dadosFuncionario.telefone}'`
+                                                '${dadosFuncionario.email}', 
+                                                '${dadosFuncionario.senha}',
+                                                '${dadosFuncionario.telefone}')`
 
         let resultado = await prisma.$executeRawUnsafe(sql)
 
@@ -44,7 +44,7 @@ const updateFuncionario = async function (id, dadosFuncionario){
 
         let sql = `update tbl_funcionario set 
                                           nome = '${dadosFuncionario.nome}',
-                                          login = '${dadosFuncionario.login}',
+                                          email = '${dadosFuncionario.email}',
                                           senha = '${dadosFuncionario.senha}',
                                           telefone = '${dadosFuncionario.telefone}'
                                           where id = ${id}`
