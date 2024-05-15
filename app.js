@@ -57,6 +57,7 @@ const controllerUsuarios = require('./controller/controller_usuario.js')
 const controllerAtores = require('./controller/controller_ator.js')
 const controllerNacionalidade = require('./controller/controller_nacionalidade.js')
 const controllerDiretor = require('./controller/controller_diretor.js')
+const controllerFuncionario = require('./controller/controller_funcionario.js')
 
 
 //********************************************************************************************************************
@@ -538,6 +539,41 @@ app.delete('/v2/AcmeFilmes/diretor/:id', cors(), bodyParserJSON, async function(
 
     response.json(diretorDeletado)
     response.status(diretorDeletado.status_code)
+})
+
+//********************************ENDPOINTS DE FUNCIONARIO***************************************
+
+app.get('/v2/AcmeFilmes/funcionarios', cors(), async (request, response) =>{
+
+    let listaDeFuncionarios = await controllerFuncionario.getListarFuncionarios()
+
+    if(listaDeFuncionarios){
+        response.json(listaDeFuncionarios)
+        response.status(200)
+    }else{
+        response.json({erro:'itens não encontrados'})
+        response.status(404)
+    }
+})
+
+app.get('/v2/AcmeFilmes/funcionario/:id', cors(), async function (request, response) {
+
+    let idFuncionario = request.params.id
+
+    //chama a função da controller para listar o filme com id correspondente
+    let dadosFuncionario = await controllerFuncionario.getBuscarFuncionario(idFuncionario)
+        response.status(dadosFuncionario.status_code)
+        response.json(dadosFuncionario)
+})
+
+app.post('/v2/AcmeFilmes/funcionarios', cors(), bodyParserJSON, async function(request, response){
+
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let resultDadosNovoFuncionario = await controllerFuncionario.setInserirnovoFuncionario(dadosBody, contentType)
+    
+    response.status(resultDadosNovoFuncionario.status_code)
+    response.json(resultDadosNovoFuncionario)
 })
 
 //******************************************************************************************/
