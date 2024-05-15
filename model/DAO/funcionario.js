@@ -107,7 +107,7 @@ const selectFuncionarioById = async function (idFuncionario){
  const selectLastInsertId = async function () {
 
     try{
-    let sql = `select cast(last_insert_id() as DECIMAL) as id from tbl_admnistrador limit 1`
+    let sql = `select cast(last_insert_id() as DECIMAL) as id from tbl_funcionario limit 1`
     let result = await prisma.$queryRawUnsafe(sql)
     
     let id

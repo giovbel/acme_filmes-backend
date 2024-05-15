@@ -22,7 +22,7 @@ const setInserirnovoFuncionario = async function (dadosFuncionario, contentType)
             let novoFuncionarioJSON = {}
 
             if (dadosFuncionario.nome == "" || dadosFuncionario.nome == undefined || dadosFuncionario.nome == null || dadosFuncionario.nome.length > 100 ||
-                dadosFuncionario.login == "" || dadosFuncionario.login == undefined || dadosFuncionario.login == null || dadosFuncionario.login.length > 45 ||
+                dadosFuncionario.email == "" || dadosFuncionario.email == undefined || dadosFuncionario.email == null || dadosFuncionario.email.length > 45 ||
                 dadosFuncionario.senha == "" || dadosFuncionario.senha == undefined || dadosFuncionario.senha == null || dadosFuncionario.senha.length > 45 ||
                 dadosFuncionario.telefone == "" || dadosFuncionario.telefone == undefined || dadosFuncionario.telefone == null || dadosFuncionario.telefone.length > 45
             ) {
@@ -65,13 +65,12 @@ const setAtualizarFuncionario = async function (idFuncionario, dadosFuncionario,
             } else {
 
                 if (dadosFuncionario.nome == "" || dadosFuncionario.nome == undefined || dadosFuncionario.nome == null || dadosFuncionario.nome.length > 100 ||
-                dadosFuncionario.login == "" || dadosFuncionario.login == undefined || dadosFuncionario.login == null || dadosFuncionario.login.length > 45 ||
+                dadosFuncionario.email == "" || dadosFuncionario.email == undefined || dadosFuncionario.email == null || dadosFuncionario.email.length > 45 ||
                 dadosFuncionario.senha == "" || dadosFuncionario.senha == undefined || dadosFuncionario.senha == null || dadosFuncionario.senha.length > 45 ||
                 dadosFuncionario.telefone == "" || dadosFuncionario.telefone == undefined || dadosFuncionario.telefone == null || dadosFuncionario.telefone.length > 45
 
                 ) {
                     return message.ERROR_REQUIRED_FIELDS
-                    console.log(message)
                 } else {
 
                         let funcionarioAtualizado = await funcionariosDAO.updateFuncionario(idFuncionario, dadosFuncionario)

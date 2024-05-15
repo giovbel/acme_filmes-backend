@@ -576,6 +576,8 @@ app.post('/v2/AcmeFilmes/funcionarios', cors(), bodyParserJSON, async function(r
     response.json(resultDadosNovoFuncionario)
 })
 
+
+
 //******************************************************************************************/
 app.listen('8080', function(){
     console.log('API funcionando!!!')
