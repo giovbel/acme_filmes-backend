@@ -72,7 +72,7 @@ const setAtualizarGenero = async function (idGenero, dadosGenero, contentType) {
                 
                     return generoAtualizadoJSON                
                 } else {
-                    message.ERROR_INTERNAL_SERVER_DB
+                   return message.ERROR_INTERNAL_SERVER_DB
                 }
             }
         } else {

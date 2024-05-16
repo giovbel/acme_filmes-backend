@@ -40,12 +40,15 @@ const updateGenero = async (idGenero, dadosGenero) => {
     let sql = `update tbl_genero set nome = '${dadosGenero.nome}' where id = ${idGenero}`
     let resultado = await prisma.$executeRawUnsafe(sql)
 
+    console.log(sql, resultado)
+
     if(resultado){
      return true
     } else {
      return false
     } 
   } catch (error) {
+    console.log(error)
     return false
   }
 }
@@ -134,11 +137,35 @@ const selectLastInsertId = async () => {
 
 }
 
+const selectGeneroByFilme = async (id) => {
+
+  try{
+
+      let sql = `select tbl_genero.id, tbl_genero.nome
+      from tbl_genero join tbl_filme on tbl_genero.id = tbl_filme.genero_id 
+                  where tbl_filme.id = ${id}`
+
+      let resultado = await prisma.$queryRawUnsafe(sql)
+
+      console.log(resultado)
+
+      if(resultado)
+      return resultado
+      else
+      return false
+  }catch(error){
+      console.log(error)
+      return false
+  }
+}
+
+
 module.exports = {
   insertGenero,
   updateGenero,
   deleteGenero,
   selectAllGeneros,
   selectGeneroById,
-  selectLastInsertId
+  selectLastInsertId,
+  selectGeneroByFilme
 }

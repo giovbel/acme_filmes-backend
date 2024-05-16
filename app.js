@@ -160,14 +160,12 @@ app.delete('/v2/acmeFilmes/filme/:id', cors(), async function (request, response
 app.put('/v2/acmeFilmes/filme/:id', cors(), bodyParserJSON, async function (request, response){
 
     let idFilme = request.params.id;
-    let filmeDeletado = await controllerFilmes.setExcluirFilme(idFilme); 
-
     let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let filmeAtualizado = await controllerFilmes.setAtualizarFilme(dadosBody,idFilme, contentType); 
 
-    console.log(filmeDeletado)
-
-    response.status(filmeDeletado.status_code) 
-    response.json(filmeDeletado)
+    response.json(filmeAtualizado)
+    response.status(filmeAtualizado.status_code)
 })
 
 //********************************ENDPOINTS DE GÊNERO***************************************

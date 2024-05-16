@@ -167,6 +167,8 @@ const getListarAtores = async function () {
         ator.nacionalidade = dadosNacio
     }))
 
+    
+
     //validação para verificar se o DAO retonou dados
     if (dadosAtores) {
         if (dadosAtores.length > 0) {
@@ -218,7 +220,7 @@ const getBuscarAtor = async function (id) {
  }
 }
 
-const getBuscarAtorPeloFilme = async function (id) {
+const getBuscarAtorPeloFilme = async function (idFilme) {
 
     try {
         if (idFilme == "" || idFilme == undefined || isNaN(idFilme)) {

@@ -137,11 +137,35 @@ const selectLastInsertId = async () => {
     }
 }
 
+const selectClassficacaoByFilme = async (id) => {
+
+    try{
+
+        let sql = `select tbl_classificacao.id, tbl_classificacao.nome, 
+                    tbl_classificacao.nome_completo, tbl_classificacao.descricao, tbl_classificacao.icone  
+                    from tbl_classificacao join tbl_filme on tbl_classificacao.id = tbl_filme.classificacao_id 
+                    where tbl_filme.id = ${id}`
+
+        let resultado = await prisma.$queryRawUnsafe(sql)
+
+        console.log(resultado)
+
+        if(resultado)
+        return resultado
+        else
+        return false
+    }catch(error){
+        console.log(error)
+        return false
+    }
+}
+
 module.exports = {
     insertClassificacao,
     updateClassificacao,
     deleteClassificacao,
     selectAllClassificacoes,
     selectClassificacoesById,
-    selectLastInsertId
+    selectLastInsertId,
+    selectClassficacaoByFilme
 }

@@ -155,6 +155,7 @@ const setAtualizarDiretor = async function (idDiretor, dadosDiretor, contentType
 
 const setExcluirDiretor = async function (idDiretor) {
 
+    console.log(idDiretor)
     try {
 
         if (idDiretor == "" || idDiretor == undefined || isNaN(idDiretor)) {  
@@ -172,6 +173,7 @@ const setExcluirDiretor = async function (idDiretor) {
             }
         }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER 
     }
 }
@@ -253,7 +255,7 @@ const getDiretorPorFilme = async (idFilme)=>{
             let dadosDiretores = await diretoresDAO.selectByFilmeDiretor(idFilme)
 
             await Promise.all(dadosDiretores.map(async (diretor) => {
-                let nacionalidadeDiretor = await controllerPaises.getPaisesPorDiretor(diretor.id);
+                let nacionalidadeDiretor = await controllerNacionalidade.getNacionalidadeByDiretor(diretor.id);
                 diretor.nacionalidade = nacionalidadeDiretor;
             }));
 
@@ -273,6 +275,7 @@ const getDiretorPorFilme = async (idFilme)=>{
             }
         }
     } catch (error) {
+        console.log(error)
         return [message.ERROR_INTERNAL_SERVER]
     }
 }

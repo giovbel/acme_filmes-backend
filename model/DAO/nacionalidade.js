@@ -200,6 +200,25 @@ const selectByDiretorNacio = async (idDiretor) => {
     }
 }
 
+const selectByFilmeNacio = async (id) => {
+
+    try {
+
+        let sql = `select tbl_nacionalidade.id, tbl_nacionalidade.gentilico, tbl_nacionalidade.sigla, tbl_nacionalidade.bandeira 
+        from tbl_nacionalidade join tbl_filme on tbl_nacionalidade.id = tbl_filme.nacionalidade_id where tbl_filme.id = ${id};`
+
+        let resultado = await prisma.$queryRawUnsafe(sql)
+
+        if (resultado){
+            return resultado
+        } else {
+            return false
+        }
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
 
 module.exports = {
     insertNacio,
@@ -209,5 +228,6 @@ module.exports = {
     selectNacioById,
     selectLastInsertId,
     selectByAtorNacio,
-    selectByDiretorNacio
+    selectByDiretorNacio,
+    selectByFilmeNacio
 }
