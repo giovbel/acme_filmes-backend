@@ -79,10 +79,10 @@ const setAtualizarFuncionario = async function (idFuncionario, dadosFuncionario,
                         if (funcionarioAtualizado){
                             funcionarioAtualizadoJSON.Funcionario = dadosFuncionario
                             funcionarioAtualizadoJSON.status = message.SUCCESS_UPDATED_ITEM.status
-                            funcionarioAtualizadoJSON.status_code = message.SUCCESS_UPDATED_ITEM.status_code
+                            funcionarioAtualizadoJSON.stlatus_code = message.SUCCESS_UPDATED_ITEM.status_code
                             funcionarioAtualizadoJSON.message = message.SUCCESS_UPDATED_ITEM.message
 
-                        return funcionarioAtualizado
+                        return funcionarioAtualizadoJSON
                     }else{
                         return message.ERROR_INTERNAL_SERVER_DB
                     }

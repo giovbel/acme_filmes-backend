@@ -141,35 +141,33 @@ const updateNacionalidadeDiretor = async function (idDiretor, idNacionalidade, i
 const deleteDiretor = async function (idDiretor){
 
     try {
+
         let sql = `delete from tbl_diretor where id = ${idDiretor}`
-
-        let resultado = await prisma.$executeRawUnsafe(sql)
-       console.log(sql)
-
-        if (resultado)
-        return true
+        let result = await prisma.$executeRawUnsafe(sql)
+       
+        if (result)
+            return true
         else
-        return false
-    
+            return false
     } catch (error) {
         console.log(error)
         return false
     }
 }
 
+
+
 const deleteNacionalidadeDiretor = async function (idDiretor) {
 
     try {
+
         let sql = `delete from tbl_diretor_nacionalidade where diretor_id = ${idDiretor}`
-
-        let resultado = await prisma.$executeRawUnsafe(sql)
-        console.log(sql)
+        let result = await prisma.$executeRawUnsafe(sql)
      
-        if (resultado)
-        return true
+        if (result)
+            return true
         else
-        return false
-
+            return false
     } catch (error) {
         console.log(error)
         return false

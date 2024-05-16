@@ -576,6 +576,25 @@ app.post('/v2/AcmeFilmes/funcionarios', cors(), bodyParserJSON, async function(r
     response.json(resultDadosNovoFuncionario)
 })
 
+app.put('/v2/AcmeFilmes/funcionario/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idFuncionario = request.params.id
+    let contentType = request.header('content-type')
+    let dadosBody = request.body
+    let funcionarioAtualizado = await controllerFuncionario.setAtualizarFuncionario(idFuncionario, dadosBody, contentType)
+
+    response.json(funcionarioAtualizado)
+    response.status(funcionarioAtualizado.status_code)
+})
+
+app.delete('/v2/AcmeFilmes/funcionario/:id', cors(), bodyParserJSON, async function(request, response){
+
+    let idFuncionario = request.params.id
+    let funcionarioDeletado = await controllerFuncionario.setExcluirFuncionario(idFuncionario)
+
+    response.json(funcionarioDeletado)
+    response.status(funcionarioDeletado.status_code)
+})
 
 
 //******************************************************************************************/

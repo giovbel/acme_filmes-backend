@@ -17,7 +17,7 @@ const insertFuncionario = async function (dadosFuncionario){
     try {
         
         let sql = `insert into tbl_funcionario (nome, 
-                                                login, 
+                                                email, 
                                                 senha,
                                                 telefone
                                         ) values (
@@ -32,8 +32,8 @@ const insertFuncionario = async function (dadosFuncionario){
             return resultado
         else
             return false
-
     } catch (error) {
+        console.log(error)
         return false
     }
 }
