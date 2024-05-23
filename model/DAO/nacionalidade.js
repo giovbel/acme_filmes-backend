@@ -169,6 +169,8 @@ const selectByAtorNacio = async function (idAtor) {
         `
         let resultado = await prisma.$queryRawUnsafe(sql)
 
+        console.log(sql)
+
         if (resultado){
             return resultado
         } else {

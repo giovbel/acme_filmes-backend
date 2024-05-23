@@ -137,8 +137,8 @@ const updateFilme = async function(id,dadosAtualizados) {
 
 //função para excluir um filme no banco de dados
 const deleteFilme = async function(id) {
-  
-  let sql = `delete from tbl_filme where id = ${id}`
+  try {
+    let sql = `delete from tbl_filme where id = ${id}`
 
   let rsFilme = await prisma.$queryRawUnsafe(sql);
 
@@ -146,6 +146,11 @@ const deleteFilme = async function(id) {
     return rsFilme;
   else
     return false;
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+
 }
 
 //função para listar todos os filmes do banco de dados

@@ -122,9 +122,8 @@ const updateAtor = async (id, dadosAtor) => {
 const updateNacionalidadeAtor = async (idNacio, idAtor) => {
 
     try{
-        let sql = `update tbl_ator_nacionalidade set ator_id = ${idAtor},
-                                                     nacionalidade_id = ${idNacio}
-        `;
+        let sql = `update tbl_ator_nacionalidade set ator_id = 
+        ${idAtor},nacionalidade_id = ${idNacio} where ator_id = ${idAtor}`;
 
 
         let resultado = await prisma.$executeRawUnsafe(sql)
@@ -152,9 +151,34 @@ const deleteAtor = async function (idAtor){
             return false
         }
     } catch (error) {
+        console.log(error)
         return false
     }
 }
+
+const deleteAtorFilme = async function(id) {
+  
+    let sql = `delete from tbl_ator_filme where ator_id = ${id}`
+  
+    let rsFilmeAtor = await prisma.$queryRawUnsafe(sql);
+  
+    if(rsFilmeAtor)
+      return rsFilmeAtor;
+    else
+      return false;
+  }
+
+  const deleteAtorNacionalidade = async function(id) {
+  
+    let sql = `delete from tbl_ator_nacionalidade where ator_id = ${id}`
+  
+    let rsFilmeAtor = await prisma.$queryRawUnsafe(sql);
+  
+    if(rsFilmeAtor)
+      return rsFilmeAtor;
+    else
+      return false;
+  }
 
 const selectAllAtores = async function (){
 
@@ -228,6 +252,8 @@ module.exports = {
     updateAtor,
     updateNacionalidadeAtor,
     deleteAtor,
+    deleteAtorFilme,
+    deleteAtorNacionalidade,
     selectAllAtores,
     selectAtorById,
     selectLastInsertId,

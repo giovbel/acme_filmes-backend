@@ -116,8 +116,13 @@ const setAtualizarAtor = async function (id,dadosAtor, contentType) {
                 return message.ERROR_REQUIRED_FIELDS 
             }else{
                 let dadosAtualizados = await atoresDAO.updateAtor(id, dadosAtor)
-                let nacioAtualizada = await atoresDAO.updateNacionalidadeAtor(id,dadosAtor.nacionalidade)
-                if(dadosAtualizados && nacioAtualizada){
+                let nacioAtualizada
+
+                dadosAtor.nacionalidade.forEach(async nacionalidade => {
+                 nacioAtualizada = await atoresDAO.updateNacionalidadeAtor(nacionalidade, id)
+                });
+
+                if(dadosAtualizados){
                     return message.SUCCESS_UPDATED_ITEM //201
             }else{
                 
@@ -140,7 +145,10 @@ const setExcluirAtor = async function (id) {
 
             return message.ERROR_INVALID_ID
         } else {
+            let filmeDeletado = await atoresDAO.deleteAtorFilme(id)
+            let nacionalidadeDeletada = await atoresDAO.deleteAtorNacionalidade(id)
         let atorDeletado = await atoresDAO.deleteAtor(id)
+
 
         if (atorDeletado) {
                 return message.SUCCESS_DELETED_ITEM 
@@ -202,6 +210,11 @@ const getBuscarAtor = async function (id) {
 
      //encaminha para o DAO localizar o id do ator
      let dadosAtor = await atoresDAO.selectAtorById(idAtor)
+
+     await Promise.all(dadosAtor.map(async function (ator){
+        let dadosNacio = await controllerNacionalidade.getNacionalidadeByAtor(ator.id)
+        ator.nacionalidade = dadosNacio
+    }))
 
      //validação para verificar se existe dados de retorno
      if (dadosAtor) {
