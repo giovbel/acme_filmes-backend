@@ -31,6 +31,7 @@ const insertFilme = async function(dadosFilme) {
                                     data_lancamento,
                                     data_relancamento,
                                     foto_capa,
+                                    foto_fundo,
                                     valor_unitario,
                                     classificacao_id,
                                     genero_id,
@@ -42,6 +43,7 @@ const insertFilme = async function(dadosFilme) {
                                     '${dadosFilme.data_lancamento}',
                                     '${dadosFilme.data_relancamento}',
                                     '${dadosFilme.foto_capa}',
+                                    '${dadosFilme.foto_fundo}',
                                     '${dadosFilme.valor_unitario}',
                                      ${dadosFilme.classificacao_id},
                                      ${dadosFilme.genero_id},
@@ -55,6 +57,7 @@ const insertFilme = async function(dadosFilme) {
                                             data_lancamento,
                                             data_relancamento,
                                             foto_capa,
+                                            foto_fundo,
                                             valor_unitario,
                                             classificacao_id,
                                             genero_id,
@@ -66,6 +69,7 @@ const insertFilme = async function(dadosFilme) {
                                       '${dadosFilme.data_lancamento}',
                                        null,
                                       '${dadosFilme.foto_capa}',
+                                      '${dadosFilme.foto_fundo}',
                                       '${dadosFilme.valor_unitario}',
                                        ${dadosFilme.classificacao_id},
                                        ${dadosFilme.genero_id},
@@ -108,6 +112,7 @@ const updateFilme = async function(id,dadosAtualizados) {
                                   data_lancamento = '${dadosAtualizados.data_lancamento}',
                                   data_relancamento =  '${dadosAtualizados.data_relancamento}',
                                   foto_capa =  '${dadosAtualizados.foto_capa}',
+                                  foto_fundo = '${dadosAtualizados.foto_fundo}',
                                   valor_unitario =  ${dadosAtualizados.valor_unitario},
                                   classificacao_id = ${dadosAtualizados.classificacao_id},
                                   genero_id = ${dadosAtualizados.genero_id},
@@ -120,6 +125,7 @@ const updateFilme = async function(id,dadosAtualizados) {
                                   data_lancamento = '${dadosAtualizados.data_lancamento}',
                                   data_relancamento =  null,
                                   foto_capa =  '${dadosAtualizados.foto_capa}',
+                                  foto_fundo = '${dadosAtualizados.foto_fundo}',
                                   valor_unitario =  ${dadosAtualizados.valor_unitario},
                                   classificacao_id = ${dadosAtualizados.classificacao_id},
                                   genero_id = ${dadosAtualizados.genero_id},
@@ -157,7 +163,7 @@ const deleteFilme = async function(id) {
 const selectAllFilmes = async function() {
 
     let sql = `select tbl_filme.id as id, tbl_filme.nome as nome, tbl_filme.sinopse as sinopse, tbl_filme.duracao as duracao, tbl_filme.data_lancamento as data_lancamento, 
-    tbl_filme.data_relancamento as data_relancamento, tbl_filme.foto_capa as foto_capa, tbl_filme.valor_unitario as valor_unitario,
+    tbl_filme.data_relancamento as data_relancamento, tbl_filme.foto_capa as foto_capa,  tbl_filme.foto_fundo as foto_fundo, tbl_filme.valor_unitario as valor_unitario,
     tbl_nacionalidade.gentilico as nacionalidade, tbl_classificacao.nome as classificacao, tbl_genero.nome as genero from tbl_filme 
     join tbl_nacionalidade on tbl_filme.nacionalidade_id =  tbl_nacionalidade.id
     join tbl_classificacao on tbl_filme.classificacao_id = tbl_classificacao.id

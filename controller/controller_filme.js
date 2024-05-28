@@ -35,6 +35,7 @@ const setInserirNovoFilme = async function (dadosFilme, contentType) {
         dadosFilme.duracao == '' || dadosFilme.duracao == undefined || dadosFilme.duracao == null || dadosFilme.duracao.length > 8 ||
         dadosFilme.data_lancamento == '' || dadosFilme.data_lancamento == undefined || dadosFilme.data_lancamento == null || dadosFilme.data_lancamento.length != 10 ||
         dadosFilme.foto_capa == '' || dadosFilme.foto_capa == undefined || dadosFilme.foto_capa == null || dadosFilme.foto_capa.length > 200 ||
+        dadosFilme.foto_fundo == '' || dadosFilme.foto_fundo == undefined || dadosFilme.foto_fundo == null || dadosFilme.foto_fundo.length > 200 ||
         dadosFilme.valor_unitario.length > 6
     ) {
 
@@ -118,6 +119,7 @@ const setAtualizarFilme = async function (dadosAtualizados, id, contentType) {
                dadosAtualizados.duracao == '' || dadosAtualizados.duracao == undefined || dadosAtualizados.duracao == null || dadosAtualizados.duracao.length > 8 ||
                dadosAtualizados.data_lancamento == '' || dadosAtualizados.data_lancamento == undefined || dadosAtualizados.data_lancamento == null || dadosAtualizados.data_lancamento.length != 10 ||
                dadosAtualizados.foto_capa == '' || dadosAtualizados.foto_capa == undefined || dadosAtualizados.foto_capa == null || dadosAtualizados.foto_capa.length > 200 ||
+               dadosAtualizados.foto_fundo == '' || dadosAtualizados.foto_fundo == undefined || dadosAtualizados.foto_fundo == null || dadosAtualizados.foto_fundo.length > 200 ||
                dadosAtualizados.valor_unitario.length > 6
             ){
                 return message.ERROR_REQUIRED_FIELDS 
